@@ -1,5 +1,4 @@
-/* style.css - FULL UPDATED VERSION */
-
+/* --- 1. VARIABLES & RESET --- */
 :root {
     --primary-color: #6c63ff;
     --secondary-color: #ff6584;
@@ -11,11 +10,16 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
+    padding: 0;
     background-color: var(--dark-bg);
     color: var(--light-text);
+    /* This ensures the checkout box centers vertically */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* --- Navigation --- */
+/* --- 2. HEADER & NAVIGATION --- */
 header {
     display: flex;
     justify-content: space-between;
@@ -25,7 +29,8 @@ header {
     position: sticky;
     top: 0;
     border-bottom: 1px solid #333;
-    z-index: 100;
+    z-index: 500;
+    flex-shrink: 0; /* Prevents header from shrinking */
 }
 
 header h1 {
@@ -48,26 +53,47 @@ nav a:hover {
     color: var(--secondary-color);
 }
 
-/* --- Hero Section --- */
+/* --- 3. LAYOUT & CARDS --- */
 .hero {
     text-align: center;
-    padding: 100px 20px;
+    padding: 80px 20px;
     background: radial-gradient(circle at center, #2e2e4d 0%, #1a1a2e 100%);
 }
 
-.hero h2 {
-    font-size: 40px;
-    margin-bottom: 10px;
+.hero h2 { font-size: 40px; margin-bottom: 10px; }
+.hero p { color: #ccc; max-width: 600px; margin: 0 auto 30px auto; }
+
+/* The Main Container (Now Centers Content) */
+.container {
+    width: 90%;
+    max-width: 1200px; /* Wider for products */
+    margin: auto;      /* Centers the container horizontally */
+    padding: 20px;
+    flex-grow: 1;      /* Pushes footer to bottom */
+    
+    /* These lines center the Checkout Card perfectly */
+    display: flex;
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center;
 }
 
-.hero p {
-    font-size: 18px;
-    color: #ccc;
-    max-width: 600px;
-    margin: 0 auto 40px auto;
+/* Specific fix: Allow product grid to fill width, don't center-squish it */
+.product-grid {
+    width: 100%; 
 }
 
-/* --- BUTTON LIBRARY --- */
+.card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    border: 1px solid #333;
+    width: 100%;
+    max-width: 500px; /* Limits width of checkout card */
+}
+
+/* --- 4. BUTTON LIBRARY --- */
 .btn {
     padding: 12px 30px;
     border: none;
@@ -75,7 +101,7 @@ nav a:hover {
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
-    margin: 10px;
+    margin: 5px;
     transition: transform 0.2s, box-shadow 0.2s;
     text-decoration: none;
     display: inline-block;
@@ -86,52 +112,16 @@ nav a:hover {
     color: white;
     box-shadow: 0 4px 15px rgba(108, 99, 255, 0.4);
 }
-.btn-glow:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(108, 99, 255, 0.6);
-}
+.btn-glow:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(108, 99, 255, 0.6); }
 
 .btn-outline {
     background: transparent;
     border: 2px solid var(--primary-color);
     color: var(--primary-color);
 }
-.btn-outline:hover {
-    background: var(--primary-color);
-    color: white;
-}
+.btn-outline:hover { background: var(--primary-color); color: white; }
 
-.btn-ghost {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    backdrop-filter: blur(5px);
-}
-.btn-ghost:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-.btn-danger {
-    background: #ff4757;
-    color: white;
-    border-radius: 8px;
-}
-.btn-danger:hover {
-    background: #ff6b81;
-}
-
-/* --- Content Cards & Grid --- */
-.container {
-    padding: 50px 10%;
-}
-
-.card {
-    background: var(--card-bg);
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-
+/* --- 5. PRODUCT GRID --- */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -145,18 +135,15 @@ nav a:hover {
     text-align: center;
     transition: transform 0.3s;
 }
-
-.product-card:hover {
-    transform: translateY(-10px);
-}
+.product-card:hover { transform: translateY(-10px); }
 
 .product-image {
     width: 100%;
-    height: 200px; /* Fixed height for consistency */
+    height: 200px;
     border-radius: 10px;
     margin-bottom: 15px;
-    object-fit: cover; /* Crops image nicely */
-    background: #333; /* Loading color */
+    object-fit: cover; /* Ensures photos don't stretch */
+    background: #333;
 }
 
 .price {
@@ -166,108 +153,9 @@ nav a:hover {
     margin: 10px 0;
 }
 
-/* --- TOAST NOTIFICATION --- */
-#toast {
-    visibility: hidden;
-    min-width: 250px;
-    background-color: var(--secondary-color);
-    color: #fff;
-    text-align: center;
-    border-radius: 50px;
-    padding: 16px;
-    position: fixed;
-    z-index: 1000;
-    left: 50%;
-    bottom: 30px;
-    transform: translateX(-50%);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    font-weight: bold;
-    font-size: 16px;
-}
-
-#toast.show {
-    visibility: visible;
-    animation: fadein 0.5s, fadeout 0.5s 2.5s;
-}
-
-@keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
-@keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
-
-/* --- CART SIDEBAR --- */
-#cart-sidebar {
-    position: fixed;
-    top: 0;
-    right: -400px;
-    width: 300px;
-    height: 100%;
-    background-color: #1a1a2e;
-    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
-    transition: right 0.4s ease;
-    z-index: 2000;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    border-left: 1px solid #333;
-    box-sizing: border-box; /* Fix for padding issues */
-}
-
-#cart-sidebar.open {
-    right: 0;
-}
-
-.sidebar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid #333;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-}
-
-.close-btn {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 30px;
-    cursor: pointer;
-}
-
-.cart-item {
-    display: flex;
-    justify-content: space-between;
-    background: #232336;
-    padding: 10px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    align-items: center;
-}
-
-#overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-    z-index: 1500;
-    display: none;
-}
-
-#overlay.active {
-    display: block;
-}
-
-/* --- CHECKOUT FORM & INPUTS --- */
-.form-group {
-    margin-bottom: 20px;
-}
-
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: bold;
-    color: #ccc;
-}
+/* --- 6. FORMS (CHECKOUT) --- */
+.form-group { margin-bottom: 20px; text-align: left; width: 100%; }
+label { display: block; margin-bottom: 8px; font-weight: bold; color: #ccc; }
 
 input, select, textarea {
     width: 100%;
@@ -277,33 +165,84 @@ input, select, textarea {
     border-radius: 8px;
     color: white;
     font-size: 16px;
-    font-family: inherit;
     box-sizing: border-box;
 }
-
 input:focus, select:focus, textarea:focus {
-    outline: none;
-    border-color: var(--primary-color);
+    outline: none; border-color: var(--primary-color);
 }
 
-textarea {
-    resize: vertical;
-}
-
-/* --- FIXED PHONE NUMBER LAYOUT --- */
+/* FIXED: Phone Number Layout */
 .input-group {
-    display: flex;
+    display: flex; /* Puts items side-by-side */
     gap: 10px;
     width: 100%;
 }
 
 .country-code {
-    width: 110px !important; /* Forces dropdown to be small */
+    width: 110px !important; /* Force fixed width */
     min-width: 110px;
-    flex-shrink: 0; /* Prevents squishing */
+    flex-shrink: 0;
+    text-align: center;
 }
 
 .input-group input {
-    flex-grow: 1; /* Forces input to take all remaining space */
-    width: auto !important; /* Overrides global 100% width */
+    flex-grow: 1; /* Takes all remaining space */
+    width: auto !important;
 }
+
+/* --- 7. CART SIDEBAR --- */
+#cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: -400px;
+    width: 300px;
+    height: 100%;
+    background-color: #1a1a2e;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    transition: right 0.4s ease;
+    z-index: 1000;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #333;
+}
+#cart-sidebar.open { right: 0; }
+
+.sidebar-header {
+    display: flex; justify-content: space-between; align-items: center;
+    border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 20px;
+}
+.close-btn { background: none; border: none; color: white; font-size: 30px; cursor: pointer; }
+
+.cart-item {
+    display: flex; justify-content: space-between; align-items: center;
+    background: #232336; padding: 10px; margin-bottom: 10px; border-radius: 8px;
+}
+
+#overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7); z-index: 900; display: none;
+}
+#overlay.active { display: block; }
+
+/* --- 8. TOAST NOTIFICATION --- */
+#toast {
+    visibility: hidden;
+    min-width: 250px;
+    background-color: var(--secondary-color);
+    color: #fff;
+    text-align: center;
+    border-radius: 50px;
+    padding: 16px;
+    position: fixed;
+    z-index: 2000;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    font-weight: bold;
+}
+#toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+
+@keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+@keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
