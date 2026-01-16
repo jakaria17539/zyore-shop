@@ -3,21 +3,28 @@
     "id": 1,
     "name": "Neon UI Kit",
     "price": 49.99,
-    "image": "watch.jpg",
+    "image": "https://via.placeholder.com/300/6c63ff/ffffff?text=UI+Kit",
     "description": "Complete user interface design system."
   },
   {
     "id": 2,
     "name": "Pro Analytics",
     "price": 29.99,
-    "image": "https://via.placeholder.com/300",
+    "image": "https://via.placeholder.com/300/ff6584/ffffff?text=Analytics",
     "description": "Dashboard templates for data lovers."
   },
   {
     "id": 3,
     "name": "Cloud Server",
     "price": 99.00,
-    "image": "https://via.placeholder.com/300",
+    "image": "https://via.placeholder.com/300/35424a/ffffff?text=Server",
     "description": "Fast and secure hosting for your site."
+  },
+  {
+    "id": 4,
+    "name": "Luxury Watch",
+    "price": 150.00,
+    "image": "watch.jpg",
+    "description": "Premium leather strap watch."
   }
 ]
