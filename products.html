@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Neon Agency | Products</title>
+    <title>Zyore Shop | Store</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
 
     <header>
-        <h1>NEON AGENCY</h1>
-        <a href="#" onclick="toggleCart()">Cart (<span id="cart-count">0</span>)</a>
+        <h1 style="text-transform: uppercase;">Zyore Shop</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="#" onclick="toggleCart()">Cart (<span id="cart-count">0</span>)</a>
+        </nav>
     </header>
 
     <div class="hero" style="padding: 60px 20px;">
@@ -18,53 +21,90 @@
     </div>
 
     <div class="container">
-        <div class="product-grid">
-            
-            <div class="product-card">
-                <div class="product-image" style="background: linear-gradient(45deg, #ff9a9e, #fad0c4);"></div>
-                <h3>Neon UI Kit</h3>
-                <p class="price">$49.99</p>
-                <p>Complete user interface design system.</p>
-                <button class="btn btn-outline add-btn" data-name="Neon UI Kit" data-price="49.99">Add to Cart</button>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image" style="background: linear-gradient(45deg, #a18cd1, #fbc2eb);"></div>
-                <h3>Pro Analytics</h3>
-                <p class="price">$29.99</p>
-                <p>Dashboard templates for data lovers.</p>
-                <button class="btn btn-outline add-btn" data-name="Pro Analytics" data-price="29.99">Add to Cart</button>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image" style="background: linear-gradient(45deg, #84fab0, #8fd3f4);"></div>
-                <h3>Cloud Server</h3>
-                <p class="price">$99.00/yr</p>
-                <p>Fast and secure hosting for your site.</p>
-                <button class="btn btn-outline add-btn" data-name="Cloud Server" data-price="99.00">Add to Cart</button>
-            </div>
-
+        <div class="product-grid" id="product-list">
+            <p style="color: #ccc; text-align: center;">Loading products...</p>
         </div>
     </div>
+
+    <div id="overlay" onclick="toggleCart()"></div>
+
+    <div id="cart-sidebar">
+        <div class="sidebar-header">
+            <h2>Your Cart</h2>
+            <button onclick="toggleCart()" class="close-btn">&times;</button>
+        </div>
+        
+        <div id="cart-items-container">
+            <p style="text-align:center; color:#777;">Your cart is empty.</p>
+        </div>
+
+        <div class="cart-footer">
+            <h3>Total: $<span id="cart-total">0.00</span></h3>
+            <button onclick="goToCheckout()" class="btn btn-glow" style="width: 100%;">Checkout</button>
+        </div>
+    </div>
+
     <div id="toast">Item added to cart!</div>
-<div id="overlay" onclick="toggleCart()"></div>
-
-<div id="cart-sidebar">
-    <div class="sidebar-header">
-        <h2>Your Cart</h2>
-        <button onclick="toggleCart()" class="close-btn">&times;</button>
-    </div>
-    
-    <div id="cart-items-container">
-        <p style="text-align:center; color:#777;">Your cart is empty.</p>
-    </div>
-
-    <div class="cart-footer">
-        <h3>Total: $<span id="cart-total">0.00</span></h3>
-        <button onclick="goToCheckout()" class="btn btn-glow" style="width: 100%;">Checkout</button>
-    </div>
-</div>
 
     <script src="script.js"></script>
+
+    <script>
+        // Fetch the JSON file
+        fetch('products.json')
+            .then(response => response.json())
+            .then(products => {
+                const productContainer = document.getElementById('product-list');
+                
+                // Clear the "Loading..." text
+                productContainer.innerHTML = '';
+
+                // Loop through each product and build the HTML
+                products.forEach(product => {
+                    const card = document.createElement('div');
+                    card.classList.add('product-card');
+                    
+                    card.innerHTML = `
+                        <img src="${product.image}" class="product-image" alt="${product.name}">
+                        <h3>${product.name}</h3>
+                        <p class="price">$${product.price.toFixed(2)}</p>
+                        <p>${product.description}</p>
+                        <button class="btn btn-outline add-btn-dynamic" 
+                            data-name="${product.name}" 
+                            data-price="${product.price}">
+                            Add to Cart
+                        </button>
+                    `;
+                    
+                    productContainer.appendChild(card);
+                });
+
+                // Attach click events to the new buttons
+                attachDynamicEvents();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('product-list').innerHTML = '<p>Error loading products.</p>';
+            });
+
+        // Function to make the new buttons work with your existing Cart system
+        function attachDynamicEvents() {
+            const buttons = document.querySelectorAll('.add-btn-dynamic');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const name = button.getAttribute('data-name');
+                    const price = parseFloat(button.getAttribute('data-price'));
+
+                    // Add to global cart array (from script.js)
+                    cart.push({ name, price });
+
+                    // Update UI (from script.js)
+                    updateCartDisplay();
+                    showToast();
+                });
+            });
+        }
+    </script>
+
 </body>
 </html>
