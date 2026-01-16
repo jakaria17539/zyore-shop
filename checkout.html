@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Neon Agency | Checkout</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <header>
+        <h1>NEON AGENCY</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="products.html">Back to Store</a>
+        </nav>
+    </header>
+
+    <div class="container" style="max-width: 600px;">
+        <div class="card">
+            <h2 style="text-align:center; color: var(--secondary-color);">Secure Checkout</h2>
+            <p style="text-align:center; margin-bottom: 30px;">Complete your purchase below.</p>
+
+            <form id="checkout-form">
+    
+    <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" name="Name" placeholder="John Doe" required>
+    </div>
+
+    <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" name="Email" placeholder="john@example.com" required>
+    </div>
+
+    <div class="form-group">
+        <label>Shipping Address</label>
+        <textarea name="Address" rows="3" placeholder="Street, City, Zip Code" required></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Phone Number</label>
+        <div class="input-group">
+            <select id="country-code">
+                <option value="+1">+1 (USA)</option>
+                <option value="+44">+44 (UK)</option>
+                <option value="+880">+880 (BD)</option>
+            </select>
+            <input type="tel" id="phone-number" placeholder="1234567890" required style="flex: 1;">
+            
+            <input type="hidden" name="Phone" id="full-phone">
+        </div>
+    </div>
+
+    <input type="hidden" name="Total" id="hidden-total">
+    <input type="hidden" name="Items" id="hidden-items">
+
+    <hr style="border: 1px solid #333; margin: 20px 0;">
+
+    <button type="submit" class="btn btn-glow" style="width: 100%;">Complete Order</button>
+</form>
+
+
+        </div>
+    </div>
+
+    <script>
+    // 1. Load cart data when page opens
+    const cart = JSON.parse(localStorage.getItem('myCart')) || [];
+    
+    // Calculate totals for the hidden inputs
+    let totalAmount = 0;
+    let itemNames = [];
+    
+    cart.forEach(item => {
+        totalAmount += item.price;
+        itemNames.push(item.name);
+    });
+
+    // Fill the hidden fields automatically
+    document.getElementById('hidden-total').value = "$" + totalAmount.toFixed(2);
+    document.getElementById('hidden-items').value = itemNames.join(", ");
+
+    // 2. Handle Form Submission
+    const form = document.getElementById('checkout-form');
+    
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+
+        // Combine Country Code and Phone Number
+        const code = document.getElementById('country-code').value;
+        const number = document.getElementById('phone-number').value;
+        document.getElementById('full-phone').value = code + " " + number;
+
+        // Change button text
+        const btn = document.querySelector('button[type="submit"]');
+        btn.innerHTML = "Sending Order...";
+        btn.style.opacity = "0.7";
+
+        // 3. Send Data to Google Sheets
+        // REPLACE THE URL BELOW WITH YOUR GOOGLE SCRIPT URL
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbz6azzhLUNaMPNkINLqUj_aHJXUnP51beCCi9A25GL2FY-9dg3hLZ2KYmeQ_i1qce7b/exec';
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            .then(response => {
+                alert("Success! Your order has been saved.");
+                localStorage.removeItem('myCart'); // Clear cart
+                window.location.href = "success.html";
+            })
+            .catch(error => {
+                alert("Error! " + error.message);
+                btn.innerHTML = "Try Again";
+            });
+    });
+</script>
+
+
+</body>
+</html>

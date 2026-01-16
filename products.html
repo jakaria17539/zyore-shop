@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Neon Agency | Products</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <header>
+        <h1>NEON AGENCY</h1>
+        <a href="#" onclick="toggleCart()">Cart (<span id="cart-count">0</span>)</a>
+    </header>
+
+    <div class="hero" style="padding: 60px 20px;">
+        <h2>Our Exclusive Products</h2>
+        <p>High-quality digital assets for your business.</p>
+    </div>
+
+    <div class="container">
+        <div class="product-grid">
+            
+            <div class="product-card">
+                <div class="product-image" style="background: linear-gradient(45deg, #ff9a9e, #fad0c4);"></div>
+                <h3>Neon UI Kit</h3>
+                <p class="price">$49.99</p>
+                <p>Complete user interface design system.</p>
+                <button class="btn btn-outline add-btn" data-name="Neon UI Kit" data-price="49.99">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image" style="background: linear-gradient(45deg, #a18cd1, #fbc2eb);"></div>
+                <h3>Pro Analytics</h3>
+                <p class="price">$29.99</p>
+                <p>Dashboard templates for data lovers.</p>
+                <button class="btn btn-outline add-btn" data-name="Pro Analytics" data-price="29.99">Add to Cart</button>
+            </div>
+
+            <div class="product-card">
+                <div class="product-image" style="background: linear-gradient(45deg, #84fab0, #8fd3f4);"></div>
+                <h3>Cloud Server</h3>
+                <p class="price">$99.00/yr</p>
+                <p>Fast and secure hosting for your site.</p>
+                <button class="btn btn-outline add-btn" data-name="Cloud Server" data-price="99.00">Add to Cart</button>
+            </div>
+
+        </div>
+    </div>
+    <div id="toast">Item added to cart!</div>
+<div id="overlay" onclick="toggleCart()"></div>
+
+<div id="cart-sidebar">
+    <div class="sidebar-header">
+        <h2>Your Cart</h2>
+        <button onclick="toggleCart()" class="close-btn">&times;</button>
+    </div>
+    
+    <div id="cart-items-container">
+        <p style="text-align:center; color:#777;">Your cart is empty.</p>
+    </div>
+
+    <div class="cart-footer">
+        <h3>Total: $<span id="cart-total">0.00</span></h3>
+        <button onclick="goToCheckout()" class="btn btn-glow" style="width: 100%;">Checkout</button>
+    </div>
+</div>
+
+    <script src="script.js"></script>
+</body>
+</html>
