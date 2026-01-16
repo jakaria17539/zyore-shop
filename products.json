@@ -24,14 +24,14 @@
     "id": 4,
     "name": "Luxury Watch",
     "price": 150.00,
-    "image": "https://share.google/5Rc4kF6zQoD5WaWZ5",
+    "image": "Watch.jpg",
     "description": "Premium leather strap watch."
   },
   {
     "id": 5,
     "name": "Power Bank",
     "price": 1200,
-    "image": "https://share.google/ci5xClg6Nd4Ca8D8t",
+    "image": "powerbank.jpg",
     "description": "Magsafe Powerbank for Iphone."
   }
 ]
