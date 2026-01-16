@@ -1,4 +1,4 @@
-{
+[
   {
     "id": 1,
     "name": "Neon UI Kit",
@@ -27,11 +27,11 @@
     "image": "watch.jpg",
     "description": "Premium leather strap watch."
   },
-    {
+  {
     "id": 5,
     "name": "Power Bank",
     "price": 1200,
-    "image": "https://via.placeholder.com/300/35424a/ffffff?text=Server",
+    "image": "https://via.placeholder.com/300/35424a/ffffff?text=Powerbank",
     "description": "Magsafe Powerbank for Iphone."
-  },
   }
+]
