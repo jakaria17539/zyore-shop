@@ -27,4 +27,11 @@
     "image": "watch.jpg",
     "description": "Premium leather strap watch."
   }
+    {
+    "id": 5,
+    "name": "Power Bank",
+    "price": 1200,
+    "image": "https://via.placeholder.com/300/35424a/ffffff?text=Server",
+    "description": "Magsafe Powerbank for Iphone."
+  },
 ]
