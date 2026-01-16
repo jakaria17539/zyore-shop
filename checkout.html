@@ -37,9 +37,10 @@
 
                 <div class="form-group">
                     <label>District</label>
-                    <select id="district-select" name="District" required onchange="loadUpazilas()">
-                        <option value="">Select District</option>
-                        </select>
+                    <input list="district-list" id="district-input" name="District" placeholder="Type to search (e.g. Netrokona)" required oninput="loadUpazilas()">
+                    
+                    <datalist id="district-list">
+                        </datalist>
                 </div>
 
                 <div class="form-group">
@@ -73,17 +74,14 @@
     </div>
 
     <script>
-        // --- ALL 64 DISTRICTS DATA ---
+        // --- 1. DATABASE OF ALL 64 DISTRICTS ---
         const bdData = {
-            // Barishal Division
             "Barguna": ["Amtali", "Bamna", "Barguna Sadar", "Betagi", "Patharghata", "Taltali"],
             "Barishal": ["Agailjhara", "Babuganj", "Bakerganj", "Banaripara", "Barishal Sadar", "Gaurnadi", "Hizla", "Mehendiganj", "Muladi", "Wazirpur"],
             "Bhola": ["Bhola Sadar", "Burhanuddin", "Char Fasson", "Daulatkhan", "Lalmohan", "Manpura", "Tazumuddin"],
             "Jhalokati": ["Jhalokati Sadar", "Kathalia", "Nalchity", "Rajapur"],
             "Patuakhali": ["Bauphal", "Dashmina", "Dumki", "Galachipa", "Kalapara", "Mirzaganj", "Patuakhali Sadar", "Rangabali"],
             "Pirojpur": ["Bhandaria", "Kawkhali", "Mathbaria", "Nazirpur", "Nesarabad", "Pirojpur Sadar", "Indurkani"],
-
-            // Chattogram Division
             "Bandarban": ["Ali Kadam", "Bandarban Sadar", "Lama", "Naikhongchhari", "Rowangchhari", "Ruma", "Thanchi"],
             "Brahmanbaria": ["Akhaura", "Ashuganj", "Bancharampur", "Bijoynagar", "Brahmanbaria Sadar", "Kasba", "Nabinagar", "Nasirnagar", "Sarail"],
             "Chandpur": ["Chandpur Sadar", "Faridganj", "Haimchar", "Haziganj", "Kachua", "Matlab Dakshin", "Matlab Uttar", "Shahrasti"],
@@ -95,8 +93,6 @@
             "Lakshmipur": ["Kamalnagar", "Lakshmipur Sadar", "Raipur", "Ramganj", "Ramgati"],
             "Noakhali": ["Begumganj", "Chatkhil", "Companiganj", "Hatiya", "Kabirhat", "Noakhali Sadar", "Senbagh", "Sonaimuri", "Subarnachar"],
             "Rangamati": ["Bagaichhari", "Barkal", "Belaichhari", "Juraichhari", "Kaptai", "Kaukhali", "Langadu", "Naniarchar", "Rajasthali", "Rangamati Sadar"],
-
-            // Dhaka Division
             "Dhaka": ["Dhamrai", "Dohar", "Keraniganj", "Nawabganj", "Savar", "Tejgaon Circle"],
             "Faridpur": ["Alfadanga", "Bhanga", "Boalmari", "Charbhadrasan", "Faridpur Sadar", "Madhukhali", "Nagarkanda", "Sadarpur", "Saltha"],
             "Gazipur": ["Gazipur Sadar", "Kaliakair", "Kaliganj", "Kapasia", "Sreepur"],
@@ -110,8 +106,6 @@
             "Rajbari": ["Baliakandi", "Goalandaghat", "Kalukhali", "Pangsha", "Rajbari Sadar"],
             "Shariatpur": ["Bhedarganj", "Damudya", "Gosairhat", "Naria", "Shariatpur Sadar", "Zajira"],
             "Tangail": ["Basail", "Bhuapur", "Delduar", "Dhanbari", "Ghatail", "Gopalpur", "Kalihati", "Madhupur", "Mirzapur", "Nagarpur", "Sakhipur", "Tangail Sadar"],
-
-            // Khulna Division
             "Bagerhat": ["Bagerhat Sadar", "Chitalmari", "Fakirhat", "Kachua", "Mollahat", "Mongla", "Morrelganj", "Rampal", "Sarankhola"],
             "Chuadanga": ["Alamdanga", "Chuadanga Sadar", "Damurhuda", "Jibannagar"],
             "Jashore": ["Abhaynagar", "Bagherpara", "Chaugachha", "Jashore Sadar", "Jhikargachha", "Keshabpur", "Manirampur", "Sharsha"],
@@ -122,14 +116,10 @@
             "Meherpur": ["Gangni", "Meherpur Sadar", "Mujibnagar"],
             "Narail": ["Kalia", "Lohagara", "Narail Sadar"],
             "Satkhira": ["Assasuni", "Debhata", "Kalaroa", "Kaliganj", "Satkhira Sadar", "Shyamnagar", "Tala"],
-
-            // Mymensingh Division
             "Jamalpur": ["Bakshiganj", "Dewanganj", "Islampur", "Jamalpur Sadar", "Madarganj", "Melandaha", "Sarishabari"],
             "Mymensingh": ["Bhaluka", "Dhobaura", "Fulbaria", "Gafargaon", "Gouripur", "Haluaghat", "Ishwarganj", "Mymensingh Sadar", "Muktagachha", "Nandail", "Phulpur", "Tara Khanda", "Trishal"],
             "Netrokona": ["Atpara", "Barhatta", "Durgapur", "Khaliajuri", "Kalmakanda", "Kendua", "Madan", "Mohanganj", "Netrokona Sadar", "Purbadhala"],
             "Sherpur": ["Jhenaigati", "Nakla", "Nalitabari", "Sherpur Sadar", "Sreebardi"],
-
-            // Rajshahi Division
             "Bogura": ["Adamdighi", "Bogura Sadar", "Dhunat", "Dhupchanchia", "Gabtali", "Kahaloo", "Nandigram", "Sariakandi", "Shajahanpur", "Sherpur", "Shibganj", "Sonatala"],
             "Chapainawabganj": ["Bholahat", "Chapainawabganj Sadar", "Gomastapur", "Nachol", "Shibganj"],
             "Joypurhat": ["Akkelpur", "Joypurhat Sadar", "Kalai", "Khetlal", "Panchbibi"],
@@ -138,8 +128,6 @@
             "Pabna": ["Atgharia", "Bera", "Bhangura", "Chatmohar", "Faridpur", "Ishwardi", "Pabna Sadar", "Santhia", "Sujanagar"],
             "Rajshahi": ["Bagha", "Bagmara", "Charghat", "Durgapur", "Godagari", "Mohanpur", "Paba", "Puthia", "Tanore"],
             "Sirajganj": ["Belkuchi", "Chauhali", "Kamarkhanda", "Kazipur", "Raiganj", "Shahjadpur", "Sirajganj Sadar", "Tarash", "Ullahpara"],
-
-            // Rangpur Division
             "Dinajpur": ["Birampur", "Birganj", "Biral", "Bochaganj", "Chirirbandar", "Dinajpur Sadar", "Ghoraghat", "Hakimpur", "Kaharole", "Khansama", "Nawabganj", "Parbatipur", "Fulbari"],
             "Gaibandha": ["Fulchhari", "Gaibandha Sadar", "Gobindaganj", "Palashbari", "Sadullapur", "Saghata", "Sundarganj"],
             "Kurigram": ["Bhurungamari", "Char Rajibpur", "Chilmari", "Fulbari", "Kurigram Sadar", "Nageshwari", "Phulbari", "Rajarhat", "Raomari", "Ulipur"],
@@ -148,39 +136,38 @@
             "Panchagarh": ["Atwari", "Boda", "Debiganj", "Panchagarh Sadar", "Tetulia"],
             "Rangpur": ["Badarganj", "Gangachara", "Kaunia", "Mithapukur", "Pirgachha", "Pirganj", "Rangpur Sadar", "Taraganj"],
             "Thakurgaon": ["Baliadangi", "Haripur", "Pirganj", "Ranisankail", "Thakurgaon Sadar"],
-
-            // Sylhet Division
             "Habiganj": ["Ajmiriganj", "Bahubal", "Baniyachong", "Chunarughat", "Habiganj Sadar", "Lakhai", "Madhabpur", "Nabiganj", "Shaistaganj"],
             "Moulvibazar": ["Barlekha", "Juri", "Kamalganj", "Kulaura", "Moulvibazar Sadar", "Rajnagar", "Sreemangal"],
             "Sunamganj": ["Bishwamvarpur", "Chhatak", "Dakshin Sunamganj", "Derai", "Dharmapasha", "Dowarabazar", "Jagannathpur", "Jamalganj", "Sullah", "Sunamganj Sadar", "Tahirpur"],
             "Sylhet": ["Balaganj", "Beanibazar", "Bishwanath", "Companiganj", "Dakshin Surma", "Fenchuganj", "Golapganj", "Gowainghat", "Jaintiapur", "Kanaighat", "Osmaninagar", "Sylhet Sadar", "Zakiganj"]
         };
 
-        // --- SETUP DROPDOWNS ---
-        const districtSelect = document.getElementById("district-select");
+        // --- 2. FILL SEARCHABLE LIST ---
+        const districtList = document.getElementById("district-list");
+        const districtInput = document.getElementById("district-input");
         const upazilaSelect = document.getElementById("upazila-select");
 
-        // Populate District Dropdown
+        // Add all districts to the hidden datalist
         Object.keys(bdData).sort().forEach(district => {
             let option = document.createElement("option");
-            option.value = district;
-            option.text = district;
-            districtSelect.appendChild(option);
+            option.value = district; // Use Name as value
+            districtList.appendChild(option);
         });
 
-        // Load Upazilas when District changes
+        // --- 3. SMART LOADING LOGIC ---
         function loadUpazilas() {
-            const selectedDistrict = districtSelect.value;
+            // Get what the user typed
+            const val = districtInput.value;
             
-            // Clear current options
+            // Clear Upazila Box
             upazilaSelect.innerHTML = '<option value="">Select Area</option>';
             upazilaSelect.disabled = true;
 
-            if (selectedDistrict && bdData[selectedDistrict]) {
+            // If the typed name is a real District, load its areas
+            if (bdData[val]) {
                 upazilaSelect.disabled = false;
                 
-                // Add new options
-                bdData[selectedDistrict].sort().forEach(upazila => {
+                bdData[val].sort().forEach(upazila => {
                     let option = document.createElement("option");
                     option.value = upazila;
                     option.text = upazila;
@@ -189,44 +176,37 @@
             }
         }
 
-        // --- SUBMIT FORM & HANDLE CART ---
+        // --- 4. CHECKOUT LOGIC ---
         const form = document.getElementById('checkout-form');
         
-        // 1. Get Cart Data from Storage
+        // Load Cart info
         const cart = JSON.parse(localStorage.getItem('myCart')) || [];
         let totalAmount = 0;
         let itemNames = [];
+        cart.forEach(item => { totalAmount += item.price; itemNames.push(item.name); });
         
-        cart.forEach(item => {
-            totalAmount += item.price;
-            itemNames.push(item.name);
-        });
-
-        // 2. Put Data into Hidden Fields
         document.getElementById('hidden-total').value = "$" + totalAmount.toFixed(2);
         document.getElementById('hidden-items').value = itemNames.join(", ");
 
-        // 3. Handle Submit
         form.addEventListener('submit', e => {
             e.preventDefault();
 
-            // Combine Country Code + Phone
+            // Combine Code + Phone
             const number = document.getElementById('phone-number').value;
             document.getElementById('full-phone').value = "+880 " + number;
 
-            // Change button text
+            // Change Button
             const btn = document.querySelector('button[type="submit"]');
             btn.innerHTML = "Processing...";
             btn.style.opacity = "0.7";
-            
-            // 4. Send to Google Sheets
-            // REMEMBER TO PASTE YOUR URL BELOW!
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbz6azzhLUNaMPNkINLqUj_aHJXUnP51beCCi9A25GL2FY-9dg3hLZ2KYmeQ_i1qce7b/exec'';
+
+            // *** IMPORTANT: PASTE YOUR GOOGLE SCRIPT URL HERE ***
+            const scriptURL = 'PASTE_YOUR_GOOGLE_SCRIPT_URL_HERE';
 
             fetch(scriptURL, { method: 'POST', body: new FormData(form), mode: 'no-cors'})
                 .then(response => {
-                    localStorage.removeItem('myCart'); // Clear cart
-                    window.location.href = "success.html"; // Go to success page
+                    localStorage.removeItem('myCart');
+                    window.location.href = "success.html";
                 })
                 .catch(error => {
                     alert("Error! " + error.message);
