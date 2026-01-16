@@ -1,4 +1,5 @@
-/* style.css */
+/* style.css - FULL UPDATED VERSION */
+
 :root {
     --primary-color: #6c63ff;
     --secondary-color: #ff6584;
@@ -24,6 +25,7 @@ header {
     position: sticky;
     top: 0;
     border-bottom: 1px solid #333;
+    z-index: 100;
 }
 
 header h1 {
@@ -46,7 +48,7 @@ nav a:hover {
     color: var(--secondary-color);
 }
 
-/* --- Hero Section (The Big Top Part) --- */
+/* --- Hero Section --- */
 .hero {
     text-align: center;
     padding: 100px 20px;
@@ -66,11 +68,10 @@ nav a:hover {
 }
 
 /* --- BUTTON LIBRARY --- */
-/* Base Button Settings */
 .btn {
     padding: 12px 30px;
     border: none;
-    border-radius: 50px; /* Makes them round */
+    border-radius: 50px;
     cursor: pointer;
     font-size: 16px;
     font-weight: bold;
@@ -80,7 +81,6 @@ nav a:hover {
     display: inline-block;
 }
 
-/* Style 1: The "Glow" Button */
 .btn-glow {
     background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
     color: white;
@@ -91,7 +91,6 @@ nav a:hover {
     box-shadow: 0 8px 25px rgba(108, 99, 255, 0.6);
 }
 
-/* Style 2: The "Outline" Button */
 .btn-outline {
     background: transparent;
     border: 2px solid var(--primary-color);
@@ -102,7 +101,6 @@ nav a:hover {
     color: white;
 }
 
-/* Style 3: The "Ghost" Button (Subtle) */
 .btn-ghost {
     background: rgba(255, 255, 255, 0.1);
     color: white;
@@ -112,20 +110,20 @@ nav a:hover {
     background: rgba(255, 255, 255, 0.2);
 }
 
-/* Style 4: The "Danger" Button */
 .btn-danger {
     background: #ff4757;
     color: white;
-    border-radius: 8px; /* Slightly less round */
+    border-radius: 8px;
 }
 .btn-danger:hover {
     background: #ff6b81;
 }
 
-/* --- Content Cards --- */
+/* --- Content Cards & Grid --- */
 .container {
     padding: 50px 10%;
 }
+
 .card {
     background: var(--card-bg);
     padding: 20px;
@@ -133,16 +131,13 @@ nav a:hover {
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
 }
-/* --- PRODUCT PAGE STYLES --- */
 
-/* This creates a grid that automatically fits 3 items per row on big screens */
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 30px;
 }
 
-/* Individual Product Styling */
 .product-card {
     background: #232336;
     padding: 20px;
@@ -152,15 +147,16 @@ nav a:hover {
 }
 
 .product-card:hover {
-    transform: translateY(-10px); /* Lifts up when you hover */
+    transform: translateY(-10px);
 }
 
-/* Fake Image Placeholder (Colorful Box) */
 .product-image {
     width: 100%;
-    height: 150px;
+    height: 200px; /* Fixed height for consistency */
     border-radius: 10px;
     margin-bottom: 15px;
+    object-fit: cover; /* Crops image nicely */
+    background: #333; /* Loading color */
 }
 
 .price {
@@ -169,64 +165,56 @@ nav a:hover {
     font-weight: bold;
     margin: 10px 0;
 }
+
 /* --- TOAST NOTIFICATION --- */
 #toast {
-    visibility: hidden; /* Hidden by default */
+    visibility: hidden;
     min-width: 250px;
-    background-color: var(--secondary-color); /* Pink color */
+    background-color: var(--secondary-color);
     color: #fff;
     text-align: center;
     border-radius: 50px;
     padding: 16px;
-    position: fixed; /* Stays in one place even if you scroll */
-    z-index: 1;
+    position: fixed;
+    z-index: 1000;
     left: 50%;
     bottom: 30px;
-    transform: translateX(-50%); /* Centers it exactly */
+    transform: translateX(-50%);
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
     font-weight: bold;
     font-size: 16px;
 }
 
-/* The class used by JavaScript to show the toast */
 #toast.show {
     visibility: visible;
     animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
-/* Animations for fading in and out */
-@keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
-}
+@keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+@keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
 
-@keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
-}
 /* --- CART SIDEBAR --- */
 #cart-sidebar {
     position: fixed;
     top: 0;
-    right: -400px; /* Hidden off-screen to the right */
+    right: -400px;
     width: 300px;
     height: 100%;
-    background-color: #1a1a2e; /* Dark theme match */
+    background-color: #1a1a2e;
     box-shadow: -5px 0 15px rgba(0,0,0,0.5);
-    transition: right 0.4s ease; /* Smooth slide animation */
-    z-index: 1000;
+    transition: right 0.4s ease;
+    z-index: 2000;
     padding: 20px;
     display: flex;
     flex-direction: column;
     border-left: 1px solid #333;
+    box-sizing: border-box; /* Fix for padding issues */
 }
 
-/* Class to make it slide in */
 #cart-sidebar.open {
     right: 0;
 }
 
-/* Header inside cart */
 .sidebar-header {
     display: flex;
     justify-content: space-between;
@@ -244,7 +232,6 @@ nav a:hover {
     cursor: pointer;
 }
 
-/* Cart Items Styling */
 .cart-item {
     display: flex;
     justify-content: space-between;
@@ -255,16 +242,6 @@ nav a:hover {
     align-items: center;
 }
 
-.cart-item button {
-    background: #ff4757;
-    border: none;
-    color: white;
-    border-radius: 4px;
-    padding: 5px 10px;
-    cursor: pointer;
-}
-
-/* Background Overlay */
 #overlay {
     position: fixed;
     top: 0;
@@ -272,16 +249,15 @@ nav a:hover {
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.7);
-    z-index: 900;
-    display: none; /* Hidden by default */
+    z-index: 1500;
+    display: none;
 }
 
 #overlay.active {
     display: block;
 }
-/* --- CHECKOUT FORM STYLES --- */
 
-/* Label Styling */
+/* --- CHECKOUT FORM & INPUTS --- */
 .form-group {
     margin-bottom: 20px;
 }
@@ -293,36 +269,41 @@ label {
     color: #ccc;
 }
 
-/* Input & Select Styling */
 input, select, textarea {
-    width: 100%; /* Full width */
+    width: 100%;
     padding: 12px;
-    background-color: #0f0f1a; /* Very dark background */
+    background-color: #0f0f1a;
     border: 1px solid #333;
     border-radius: 8px;
     color: white;
     font-size: 16px;
     font-family: inherit;
-    box-sizing: border-box; /* Ensures padding doesn't break width */
+    box-sizing: border-box;
 }
 
 input:focus, select:focus, textarea:focus {
     outline: none;
-    border-color: var(--primary-color); /* Purple glow when typing */
+    border-color: var(--primary-color);
 }
 
-/* Special Layout for Phone Number */
+textarea {
+    resize: vertical;
+}
+
+/* --- FIXED PHONE NUMBER LAYOUT --- */
 .input-group {
-    display: flex; /* Puts items in a row */
-    gap: 10px; /* Space between the code and number */
+    display: flex;
+    gap: 10px;
+    width: 100%;
 }
 
 .country-code {
-    width: 120px; /* Fixed width for the dropdown */
-    background-color: #232336; /* Slightly lighter to stand out */
+    width: 110px !important; /* Forces dropdown to be small */
+    min-width: 110px;
+    flex-shrink: 0; /* Prevents squishing */
 }
 
-/* Fix for the textarea resize handle */
-textarea {
-    resize: vertical;
+.input-group input {
+    flex-grow: 1; /* Forces input to take all remaining space */
+    width: auto !important; /* Overrides global 100% width */
 }
